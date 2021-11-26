@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static', filename = 'style.css')}}" rel="stylesheet">
+    <title>Prediction</title>
+</head>
+<body>
+    <form id="regForm" action="{{url_for('traitement')}}" method="post">
+
+        <h1>Enregistrer les information suivantes</h1>
+
+        <!-- One "tab" for each step in the form: -->
+        <div class="tab">Votre nom:
+          <p><input name='nom' placeholder="Nom..." oninput="this.className = ''"></p>
+          <p><input name="prenom" placeholder="Prénom..." oninput="this.className = ''"></p>
+        </div>
+
+        <div class="tab">Votre sexe:
+            <p><input type= "radio" name="sexe" id="homme" value="1" > Homme</p>
+            <p><input type= "radio" name="sexe" id="Femme" value="0" > Femme</p>
+        </div>
+
+        <div class="tab">Votre TDT:
+            <p><input type= "radio" name="TDT" id="AA" value="0"> AA</p>
+            <p><input type= "radio" name="TDT" id="DNA" value="3" > DNA</p>
+            <p><input type= "radio" name="TDT" id="ASY" value="1"> ASY</p>
+            <p><input type= "radio" name="TDT" id="AT" value="2"> AT</p>
+        </div>
+
+        <div class="tab">Votre age:
+          <p><input type='number'name="age" id="age" placeholder="entrer votre age" value="40"></p>
+        </div>
+
+        <div class="tab">Votre PAR:
+            <p><input type='number'name="par" id="par"></p>
+          </div>
+
+          <div class="tab">Votre CHOLESTEROL:
+            <p><input type='number'name="CHOL" id="CHOL"></p>
+          </div>
+
+          <div class="tab">Votre GAJ:
+            <p><input type= "radio" name="GAJ" id="bon" value="1" > 1</p>
+            <p><input type= "radio" name="GAJ" id="mauvais" value="0" > 0</p>
+        </div>
+
+        <div class="tab">Votre ECG:
+            <p><input type= "radio" name="ECG" id="ECG_normal" value="1"> Normal</p>
+            <p><input type= "radio" name="ECG" id="ECG_ST" value="2" > ST</p>
+            <p><input type= "radio" name="ECG" id="ECG_LVH" value="0" > LVH</p>
+        </div>
+
+        <div class="tab">Votre FCMAX:
+            <p><input type='number'name="FCMAX" id="FCMAX"></p>
+        </div>
+
+        <div class="tab">Votre ANGINE:
+            <p><input type= "radio" name="ANGINE" id="ANGINE_oui" value="1"> oui</p>
+            <p><input type= "radio" name="ANGINE" id="ANGINE_non" value="0"> non</p>
+        </div>
+
+        <div class="tab">Votre DEPRESSION:
+            <p><input type='number' name="DEPRESSION" id="DEPRESSION"></p>
+        </div>
+
+        <div class="tab">Votre PENTE:
+            <p><input type= "radio" name="PENTE" id="PENTE_ASC"value="2" > Ascendant</p>
+            <p><input type= "radio" name="PENTE" id="PENTE_PLA" value="0"> Plat</p>
+            <p><input type= "radio" name="PENTE" id="PENTE_DES" value="1"> Descendant</p>
+        </div>
+
+
+        <div style="overflow:auto;">
+          <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+          </div>
+        </div>
+
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+            <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+            <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+        </div>
+
+        </form>
+<script src="{{url_for('static', filename = 'predict_form.js')}}"></script>
+</body>
+</html>
