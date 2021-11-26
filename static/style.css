@@ -1,6 +1,6 @@
 /* Style the form */
 #regForm {
-    background-color: #ffffff;
+    background-color: #ff11ff;
     margin: 100px auto;
     padding: 40px;
     width: 70%;
@@ -14,6 +14,7 @@
     font-size: 17px;
     font-family: Raleway;
     border: 1px solid #aaaaaa;
+    display: inline-block;
   }
 
   /* Mark input boxes that gets an error on validation: */

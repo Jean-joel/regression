@@ -61,23 +61,6 @@ def index():
 
 @app.route('/prediction', methods=['POST', 'GET'])
 
-def vue_form(name=None):
-    error = None
-    valeur=0
-    name = request.form.get("name", "")
-    age = request.form.get("age", "")
-    response = "Hey there {}! You said you are {} years old.".format(name, age)
-
-    if request.method == 'POST':
-        if (request.form['username']):
-            valeur=1
-        else:
-            error = 'Invalid username/password'
-
-    return render_template("forlmulaire.html", error=error)
-
-@app.route('/predit', methods=['POST', 'GET'])
-
 def traitement():
     if request.method == 'POST':
         nom=request.form['nom']
@@ -105,11 +88,31 @@ def traitement():
                           "DEPRESSION":[DEPRESSION],
                           "PENTE":[PENTE]})
 
-        return render_template("prediction.html",
+        return render_template("forlmulaire.html",
                                nom=nom, prenom=prenom, aprediction=y_pred[:5], pred=prediction(donne_explicatif)
                                )
     else:
         return render_template("forlmulaire.html")
+
+
+
+
+@app.route('/predit', methods=['POST', 'GET'])
+
+def vue_form(name=None):
+    error = None
+    valeur=0
+    name = request.form.get("name", "")
+    age = request.form.get("age", "")
+    response = "Hey there {}! You said you are {} years old.".format(name, age)
+
+    if request.method == 'POST':
+        if (request.form['username']):
+            valeur=1
+        else:
+            error = 'Invalid username/password'
+
+    return render_template("forlmulaire.html", error=error)
 
 def prediction(elemt_explicatif):
 
