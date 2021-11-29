@@ -4,7 +4,7 @@ from flask import url_for
 from werkzeug.security import generate_password_hash
 #"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 #"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-import  pickle
+import pickle
 import pandas as pd
 import numpy as np
 import os
