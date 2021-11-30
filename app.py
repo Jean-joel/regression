@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'hi hi'
+    return render_template("forlmulaire.html")
 
 
 @app.route('/prediction', methods=['POST', 'GET'])
@@ -34,6 +34,7 @@ def traitement():
         prenom=request.form['prenom']
         sexe=float(request.form['sexe'])
         TDT=float(request.form['TDT'])
+
         age=float(request.form['age'])
         par=float(request.form['par'])
         CHOL=float(request.form['CHOL'])
@@ -43,10 +44,10 @@ def traitement():
         ANGINE=float(request.form['ANGINE'])
         DEPRESSION=float(request.form['DEPRESSION'])
         PENTE=float(request.form['PENTE'])
-        donne_explicatif=pd.DataFrame({"sexe":[sexe],
+        donne_explicatif=pd.DataFrame({"SEXE":[sexe],
                           "TDT" :[TDT],
-                          "age":[age],
-                          "par":[par],
+                          "AGE":[age],
+                          "PAR":[par],
                           "CHOL":[CHOL],
                           "GAJ":[GAJ],
                           "ECG":[ECG],
@@ -67,8 +68,22 @@ def traitement():
 
 
 def prediction(elemt_explicatif):
-
+    text=""
     y=model.predict(elemt_explicatif)
-    return y
+    if y==1:
+        text="Vous avez probablement un probleme cardiaque"
+    else:
+        text="Vous êtes bien portant"
+    return text
+
+def encdage(data):
+    dic_sexe={"homme":1 ,"femme":0}
+    dic_tdt={"AA":0 ,"DNA":3 , "ASY":1 ,"AT":2}
+    dic_ecg={"Normal":1 , "ST":2 , "LVH":0}
+    dic_ang={"Oui":1 , "Non":0}
+    dic_pen={"Ascendant":2 , "Plat":0 ,"Descendant":1}
+
+
+
 if __name__ == "__main__":
     app.run()

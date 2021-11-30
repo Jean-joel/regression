@@ -99,13 +99,9 @@
         </form>
 
     <p> M/mle <span>{{nom}}</span> <span>{{prenom}}</span> </p>
-<p> </p>
+     {{pred}}
 
-    {% if pred == 1: %}
-        <p> vous êtes probablement cardiaque</p>
-	{% else %}
-        <p> Vous êtes en bonne santé </p>
-	{% endif %}
+
 <script src="{{url_for('static', filename = 'predict_form.js')}}"></script>
 </body>
 </html>
