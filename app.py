@@ -25,38 +25,41 @@ print(model)
 
 app = Flask(__name__)
 
-#app.config['SQLACHEMY_DATABASE_URI']='sqlite:///prediction_cardiaque.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///db.sqlite3'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=False
+app.secret_key="prediction_coeur"
+
 #app.config['SECRET_KEY'] = "prediction_coeur"
-#db=SQLAlchemy(app)
+db=SQLAlchemy(app)
 
-#class prediction_cardiaque(db.Model):
-#    id = db.Column('individu_id', db.Integer, primary_key=True)
-#    username=db.Column(db.String(100))
-#    age = db.Column(db.Integer)
-#    par = db.Column(db.Integer)
-#    chol = db.Column(db.Integer)
-#    fcmax = db.Column(db.Integer)
- #   gaj = db.Column(db.Integer)
-  #  sexe = db.Column(db.String(30))
- #   tdt = db.Column(db.String(20))
-#    ecg = db.Column(db.String(30))
- #   angine = db.Column(db.String(30))
- #   depres = db.Column(db.Integer)
- #   pente = db.Column(db.String(30))
+class prediction_cardiaque(db.Model):
+    _id = db.Column("id", db.Integer, primary_key=True)
+    username=db.Column(db.String(100))
+    age = db.Column(db.Integer)
+    par = db.Column(db.Integer)
+    chol = db.Column(db.Integer)
+    fcmax = db.Column(db.Integer)
+    gaj = db.Column(db.Integer)
+    sexe = db.Column(db.String(30))
+    tdt = db.Column(db.String(20))
+    ecg = db.Column(db.String(30))
+    angine = db.Column(db.String(30))
+    depres = db.Column(db.Integer)
+    pente = db.Column(db.String(30))
 
-  #  def __init__(self, username,age, par,chol, fcmax, gaj, sexe, tdt, ecg, angine, depres, pente):
-  #      self.username = username
-   #     self.age = age
-   #     self.par = par
-   #     self.chol = chol
-   #     self.fcmax = fcmax
-    #    self.gaj =gaj
-    #    self.sexe =sexe
-    #    self.tdt =tdt
-    #    self.ecg = ecg
-     #   self.angine = angine
-     #   self.depres = depres
-     #   self.pente = pente
+    def __init__(self, username,age, par,chol, fcmax, gaj, sexe, tdt, ecg, angine, depres, pente):
+        self.username = username
+        self.age = age
+        self.par = par
+        self.chol = chol
+        self.fcmax = fcmax
+        self.gaj =gaj
+        self.sexe =sexe
+        self.tdt =tdt
+        self.ecg = ecg
+        self.angine = angine
+        self.depres = depres
+        self.pente = pente
 
 @app.route('/')
 def index():
@@ -68,6 +71,8 @@ def regression():
         regression=request.form['regression']
         if regression== 'simple':
             return render_template("forlmulaire.html")
+        else:
+            return render_template('view_db.html', individus=prediction_cardiaque.query.all())
 
 
 
@@ -112,9 +117,9 @@ def traitement():
         return render_template("forlmulaire.html")
 
 
-#@app.route('/db')
-#def show_db():
-#    return render_template('show_all.html', individus=prediction_cardiaque.query.all())
+@app.route('/db')
+def show_db():
+    return render_template('view_db.html', individus=prediction_cardiaque.query.all())
 
 
 #@app.route('/edit', methods=['GET', 'POST'])
@@ -158,5 +163,5 @@ def encdage(data):
 
 
 if __name__ == "__main__":
-   # db.create_all()
+    db.create_all()
     app.run(debug=True)

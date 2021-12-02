@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang = "en">
+   <head></head>
+   <body>
+
+
+      {%- for message in get_flashed_messages() %}
+         {{ message }}
+      {%- endfor %}
+
+
+      <table>
+         <thead>
+            <tr>
+               <th>Nom et prenom</th>
+               <th>SEXE</th>
+               <th>TDT</th>
+               <th>AGE</th>
+                <th>PAR</th>
+               <th>CHOL</th>
+               <th>GAJ</th>
+               <th>ECG</th>
+                <th>FCMAX</th>
+               <th>ANGINE</th>
+               <th>DEPRESSION</th>
+               <th>PENTE</th>
+
+            </tr>
+         </thead>
+
+         <tbody>
+            {% for individu in individus %}
+               <tr>
+                  <td>{{ individu.username }}</td>
+                 <td>{{ individu.sexe }}</td>
+                  <td>{{ individu.tdt }}</td>
+                  <td>{{ individu.age }}</td>
+                  <td>{{ individu.par }}</td>
+                  <td>{{ individu.chol }}</td>
+                  <td>{{ individu.gaj }}</td>
+                  <td>{{ individu.ecg }}</td>
+                  <td>{{ individu.fcmax }}</td>
+                  <td>{{ individu.angine }}</td>
+                  <td>{{ individu.depres }}</td>
+                  <td>{{ individu.pente }}</td>
+
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </body>
+</html>
