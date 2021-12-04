@@ -9,5 +9,10 @@
 <p> </p>
     <p> valeur predite est {{aprediction}}</p>
     <p> votre statut de cardiologie est {{pred}}</p>
+{% if username == "Rosalia": %}
+        <h1>Hello my love</h1>
+	{% else %}
+        <h1>Hello {{ username }}</h1>
+	{% endif %}
 </body>
 </html>

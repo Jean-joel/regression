@@ -2,6 +2,7 @@ from flask import Flask, request,flash, redirect
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask import url_for
+from werkzeug.utils import secure_filename,send_file,send_from_directory
 
 
 
@@ -28,6 +29,12 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///db.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=False
 app.secret_key="prediction_coeur"
+upload_folder="upload/"
+if not os.path.exists(upload_folder):
+    os.mkdir(upload_folder)
+
+app.config['UPLOAD_FOLDER']=upload_folder
+
 
 #app.config['SECRET_KEY'] = "prediction_coeur"
 db=SQLAlchemy(app)
@@ -61,7 +68,7 @@ class prediction_cardiaque(db.Model):
         self.depres = depres
         self.pente = pente
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
     return render_template("index.html")
 
@@ -110,7 +117,7 @@ def traitement():
         r_donne_explicatif=encdage(donne_explicatif)
         print(r_donne_explicatif)
 
-        return render_template("forlmulaire.html",
+        return render_template("index.html",
                                nom=nom, prenom=prenom, pred=prediction(r_donne_explicatif)
                                )
     else:
@@ -121,20 +128,62 @@ def traitement():
 def show_db():
     return render_template('view_db.html', individus=prediction_cardiaque.query.all())
 
+@app.route('/add')
+def add_indiv():
+    return render_template('ajouter_indiv.html')
+
+@app.route('/add_table')
+def add_table():
+    return "hi"
+
+@app.route('/add_dbb' , methods=['POST', 'GET'])
+def upload_db():
+    if request.method == "POST":
+        if request.files:
+            tableur=request.files['tableur']
+            s_tableur=tableur.save(secure_filename((tableur.filename)))
+            tableur.save(os.path.join(app.config['UPLOAD_FOLDER'],secure_filename((tableur.filename))))
+            data = pd.read_excel(tableur.filename)
+            print(data)
+    return "hi"
+
+@app.route('/add_db' , methods=['POST', 'GET'])
+def add_db():
+    if request.method == 'POST':
+        if not request.form['nom'] or not request.form['prenom']\
+                or not request.form['sexe'] or not request.form['TDT']\
+                or not request.form['age'] or not request.form['par']\
+                or not request.form['CHOL']or not request.form['GAJ']\
+                or not request.form['ECG'] or not request.form['FCMAX']\
+                or not request.form['ANGINE'] or not request.form['DEPRESSION']\
+                or not request.form['PENTE']:
+               flash('Please enter all the fields', 'error')
+        else:
+            nom = request.form['nom']
+            prenom = request.form['prenom']
+            sexe = request.form['sexe']
+            TDT = request.form['TDT']
+            age = float(request.form['age'])
+            par = float(request.form['par'])
+            CHOL = float(request.form['CHOL'])
+            GAJ = float(request.form['GAJ'])
+            ECG = request.form['ECG']
+            FCMAX = float(request.form['FCMAX'])
+            ANGINE = request.form['ANGINE']
+            DEPRESSION = float(request.form['DEPRESSION'])
+            PENTE = request.form['PENTE']
+            individu=prediction_cardiaque(username=nom+" "+prenom ,age=age ,par=par ,chol=CHOL,fcmax=FCMAX,gaj=GAJ ,sexe=sexe,tdt=TDT,ecg=ECG,angine=ANGINE,depres=DEPRESSION,pente=PENTE)
+            db.session.add(individu)
+            db.session.commit()
+            flash('Record was successfully added')
+            return redirect(url_for('show_db'))
+
+    return render_template('view_db.html')
 
 #@app.route('/edit', methods=['GET', 'POST'])
 #def new():
  #   if request.method == 'POST':
- #       if not request.form['name'] or not request.form['city'] or not request.form['addr']:
- #           flash('Please enter all the fields', 'error')
- #       else:
- #           individu = prediction_cardiaque(request.form['name'], request.form['city'],
- #                              request.form['addr'], request.form['pin'])
-
- #           db.session.add(individu)
- #           db.session.commit()
- #           flash('Record was successfully added')
- #           return redirect(url_for('show_db'))
+ #
  #   return render_template('add_item.html')
 
 

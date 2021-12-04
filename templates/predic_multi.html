@@ -1,32 +1,11 @@
 <!DOCTYPE html>
-<html lang = "en">
-   <head></head>
-   <body>
-
-
-
-
-   <h1> Visualiastion de la base de donnée</h1>
-    <p> Selectionnez l'intervalle de personne dont vous voulez prédire la situation cardiaque</p>
-
-   <p>Début<input type="number" name="debut"/></p>
-    <p>Fin<input type="number" name="debut"/></p>
-   <form action="{{url_for('upload_db')}}" method="post" enctype="multipart/form-data">
-       <p>Selectionnez un tableur excel</p>
-       <input type="file" name="tableur" id="tableur">
-       <input type="submit" value="telecharger">
-   </form>
-   <h4> <a href = "{{ url_for('add_indiv') }}">Ajouter un individu
-         </a></h4>
-
-
-
-      {%- for message in get_flashed_messages() %}
-         {{ message }}
-      {%- endfor %}
-
-
-      <table>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>prediction multiple</title>
+</head>
+<body>
+<table>
          <thead>
             <tr>
                <th>Nom et prenom</th>
@@ -46,7 +25,7 @@
          </thead>
 
          <tbody>
-            {% for individu in individus %}
+
                <tr>
                   <td>{{ individu.username }}</td>
                  <td>{{ individu.sexe }}</td>
@@ -62,8 +41,9 @@
                   <td>{{ individu.pente }}</td>
 
                </tr>
-            {% endfor %}
+
          </tbody>
       </table>
-   </body>
+
+</body>
 </html>
